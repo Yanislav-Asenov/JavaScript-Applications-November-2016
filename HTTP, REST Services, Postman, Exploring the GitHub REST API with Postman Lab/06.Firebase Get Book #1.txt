@@ -1,0 +1,9 @@
+Input:
+https://mytestproject-3bb35.firebaseio.com/books/1.json
+
+
+Output:
+{
+  "author": "Ivan Vazov",
+  "title": "Under the Yoke"
+}

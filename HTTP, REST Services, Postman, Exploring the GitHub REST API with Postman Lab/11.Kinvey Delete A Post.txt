@@ -1,0 +1,24 @@
+Input:
+Method: Post
+Body: form-data:
+title: "New Title",
+body: "New Post Body"
+
+Authentication type: Basic
+Username: guest
+password: guest
+
+Output:
+
+{
+  "title": "New Title",
+  "body": "New Post Body",
+  "_acl": {
+    "creator": "582a5393c53e0b383f6ad290"
+  },
+  "_kmd": {
+    "lmt": "2016-11-15T00:30:10.904Z",
+    "ect": "2016-11-15T00:30:10.904Z"
+  },
+  "_id": "582a5712909860b5413c9fdc"
+}

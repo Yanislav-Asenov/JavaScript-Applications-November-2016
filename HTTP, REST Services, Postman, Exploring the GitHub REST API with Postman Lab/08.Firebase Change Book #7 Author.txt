@@ -1,0 +1,8 @@
+Input:
+https://mytestproject-3bb35.firebaseio.com/books/7/author.json
+
+Body:
+"New author was assigned"
+
+Output:
+"New author was assigned"

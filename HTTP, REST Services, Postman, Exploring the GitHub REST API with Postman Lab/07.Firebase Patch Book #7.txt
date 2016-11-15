@@ -1,0 +1,12 @@
+Input:
+https://mytestproject-3bb35.firebaseio.com/books/7.json
+Body:
+{"year":1981, "author":"Author Changed"}
+
+
+Output:
+{
+  "year": 1981,
+  "author": "Author Changed"
+}
+

@@ -1,0 +1,59 @@
+Input:
+https://baas.kinvey.com/appdata/kid_r1bIX0vWl/posts
+
+Authentication type: Basic
+Username: guest
+password: guest
+
+Output:
+
+[
+  {
+    "_id": "582a53cd29eef2804b585e20",
+    "_acl": {
+      "creator": "kid_r1bIX0vWl"
+    },
+    "body": "My first post",
+    "title": "My first Post",
+    "_kmd": {
+      "lmt": "2016-11-15T00:16:13.885Z",
+      "ect": "2016-11-15T00:16:13.885Z"
+    }
+  },
+  {
+    "_id": "582a53d7209db9d973ef9e9c",
+    "_acl": {
+      "creator": "kid_r1bIX0vWl"
+    },
+    "body": "My second post",
+    "title": "My second post",
+    "_kmd": {
+      "lmt": "2016-11-15T00:16:23.954Z",
+      "ect": "2016-11-15T00:16:23.954Z"
+    }
+  },
+  {
+    "_id": "582a53e1ad33e9e64adf0715",
+    "_acl": {
+      "creator": "kid_r1bIX0vWl"
+    },
+    "body": "My third post",
+    "title": "My third post",
+    "_kmd": {
+      "lmt": "2016-11-15T00:16:33.303Z",
+      "ect": "2016-11-15T00:16:33.303Z"
+    }
+  },
+  {
+    "_id": "582a53ed06e2239d1a202a98",
+    "_acl": {
+      "creator": "kid_r1bIX0vWl"
+    },
+    "body": "My fourth post",
+    "title": "My fourth post",
+    "_kmd": {
+      "lmt": "2016-11-15T00:16:45.980Z",
+      "ect": "2016-11-15T00:16:45.980Z"
+    }
+  }
+]

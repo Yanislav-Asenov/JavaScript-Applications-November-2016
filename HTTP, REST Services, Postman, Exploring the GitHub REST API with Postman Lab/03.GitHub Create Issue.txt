@@ -1,0 +1,55 @@
+Input:
+https://api.github.com/repos/testnakov/test-nakov-repo/issues
+Body:
+{
+	"title":"Found a bug while doing my homework.",
+	"body": "I'm having a problem with golfa. He is having problems with da zapaling in the morning."
+}
+Authorization:
+Github account (my email and my password)
+
+
+
+Output:
+{
+  "url": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/23",
+  "repository_url": "https://api.github.com/repos/testnakov/test-nakov-repo",
+  "labels_url": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/23/labels{/name}",
+  "comments_url": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/23/comments",
+  "events_url": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/23/events",
+  "html_url": "https://github.com/testnakov/test-nakov-repo/issues/23",
+  "id": 189257351,
+  "number": 23,
+  "title": "Found a bug while doing my homework.",
+  "user": {
+    "login": "Yanislav-Asenov",
+    "id": 14892717,
+    "avatar_url": "https://avatars.githubusercontent.com/u/14892717?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Yanislav-Asenov",
+    "html_url": "https://github.com/Yanislav-Asenov",
+    "followers_url": "https://api.github.com/users/Yanislav-Asenov/followers",
+    "following_url": "https://api.github.com/users/Yanislav-Asenov/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Yanislav-Asenov/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Yanislav-Asenov/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Yanislav-Asenov/subscriptions",
+    "organizations_url": "https://api.github.com/users/Yanislav-Asenov/orgs",
+    "repos_url": "https://api.github.com/users/Yanislav-Asenov/repos",
+    "events_url": "https://api.github.com/users/Yanislav-Asenov/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Yanislav-Asenov/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "labels": [],
+  "state": "open",
+  "locked": false,
+  "assignee": null,
+  "assignees": [],
+  "milestone": null,
+  "comments": 0,
+  "created_at": "2016-11-14T23:34:56Z",
+  "updated_at": "2016-11-14T23:34:56Z",
+  "closed_at": null,
+  "body": "I'm having a problem with golfa. He is having problems with da zapaling in the morning.",
+  "closed_by": null
+}

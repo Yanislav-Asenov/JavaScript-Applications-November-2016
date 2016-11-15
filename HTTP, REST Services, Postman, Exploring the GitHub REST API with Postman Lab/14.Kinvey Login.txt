@@ -1,0 +1,24 @@
+Input:
+https://baas.kinvey.com/user/kid_r1bIX0vWl/login
+
+Body:
+{
+	"username": "guest",
+	"password": "guest"
+}
+
+Output:
+
+{
+  "_id": "582a5393c53e0b383f6ad290",
+  "username": "guest",
+  "ime": "ime 2",
+  "_acl": {
+    "creator": "582a5393c53e0b383f6ad290"
+  },
+  "_kmd": {
+    "lmt": "2016-11-15T00:47:18.108Z",
+    "ect": "2016-11-15T00:15:15.687Z",
+    "authtoken": "3de0138b-692a-4fb7-acc1-f921a7513d6a.N5X5GISlBYwsRDKsxTan8B8tiw71Ldmt8xgGqcT0Xt4="
+  }
+}

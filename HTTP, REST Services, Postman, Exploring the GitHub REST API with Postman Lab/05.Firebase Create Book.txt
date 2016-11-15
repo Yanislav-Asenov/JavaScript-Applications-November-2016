@@ -1,0 +1,14 @@
+Input:
+https://mytestproject-3bb35.firebaseio.com/books/.json
+
+Body:
+{
+	"author": "Yanislav Asenov",
+	"title": "How to eat water"
+}
+
+
+Output:
+{
+  "name": "-KW_FOwZ5ybhoW5VWAMw"
+}

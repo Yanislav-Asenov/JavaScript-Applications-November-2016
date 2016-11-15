@@ -1,0 +1,12 @@
+Input:
+https://baas.kinvey.com/appdata/kid_r1bIX0vWl/posts/582a5712909860b5413c9fdc
+Method: DELETE
+Authentication type: Basic
+username: guest
+password: guest
+
+
+Output:
+{
+  "count": 1
+}
