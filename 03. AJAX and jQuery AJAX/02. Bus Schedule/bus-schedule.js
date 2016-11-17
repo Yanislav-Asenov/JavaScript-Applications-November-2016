@@ -1,53 +1,36 @@
-(function (){
+function solve() {
+    let apiUrl = 'https://judgetests.firebaseio.com/schedule/';
     let currentStop = 'depot';
-    let departButton = $('#depart');
-    let arriveButton = $('#arrive');
-    let infoBox = $('#info');
+    let nextStop = 'depot';
 
-    $('#depart').on('click', function () {
-        getNextStop();
-    });
-
-    $('#arrive').on('click', function () {
-        getArrivingInfo();
-    });
-
-    function getArrivingInfo () {
-        let getRequest = {
-            url: `https://judgetests.firebaseio.com/schedule/${currentStop}.json`,
-            method: 'GET'
-        };
-
-         $.ajax(getRequest)
-            .then(showArrivingInfo)
-            .catch(showError);
+    function depart() {
+        $.ajax({
+            method: 'GET',
+            url: apiUrl + currentStop + '.json',
+            success: function (data) {
+                nextStop = data.next;
+                $('#info').find('span').text(`Next stop ${data.name}`);
+                $('#depart').attr('disabled', 'disabled');
+                $('#arrive').removeAttr('disabled');
+            }
+        });
     }
 
-    function showArrivingInfo (data) {
-        infoBox.text(`Arriving at ${data.name}`);
-        departButton.prop("disabled", false);
-        arriveButton.prop("disabled", true);
-        currentStop = data.next;
+    function arrive() {
+        $.ajax({
+            method: 'GET',
+            url: apiUrl + currentStop + '.json',
+            success: function (data) {
+                $('#info').find('span').text(`Arriving at ${data.name}`);
+                currentStop = nextStop;
+                $('#arrive').attr('disabled', 'disabled');
+                $('#depart').removeAttr('disabled');
+            }
+        });
     }
 
-    function getNextStop () {
-        let getRequest = {
-            url: `https://judgetests.firebaseio.com/schedule/${currentStop}.json`,
-            method: 'GET'
-        };
-
-        $.ajax(getRequest)
-            .then(updateInfoBox)
-            .catch(showError);
-    }
-
-    function updateInfoBox (data) {
-        infoBox.text(`Next stop ${data.name}`);
-        departButton.prop("disabled", true);
-        arriveButton.prop("disabled", false);
-    }
-
-    function showError () {
-        infoBox.text('Error');
-    }
-}());
+    return {
+        depart,
+        arrive
+    };
+}

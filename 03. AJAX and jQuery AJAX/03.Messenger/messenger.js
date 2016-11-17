@@ -1,11 +1,11 @@
-(function () {
+function attachEvents() {
+    const baseUrl = 'https://messenger-25aaf.firebaseio.com/messages';
     let authorField = $('#author');
     let messageField = $('#content');
     let sendButton = $('#submit');
     let refreshButton = $('#refresh');
     let chatContent = $('#messages');
 
-    reloadChatData();
     refreshButton.on('click', reloadChatData);
     sendButton.on('click', sendMessage);
 
@@ -16,12 +16,11 @@
         messageField.val('');
 
         let date = new Date();
-        let messageDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-        let newMessage = { author, content, date: messageDate };
+        let newMessage = { author, content };
 
         let request = {
             method: 'POST',
-            url: 'https://messenger-25aaf.firebaseio.com/messages.json',
+            url: `${baseUrl}.json`,
             data: JSON.stringify(newMessage)
         };
 
@@ -39,17 +38,18 @@
 
         for (let index in messages) {
             let message = messages[index];
-            let currentLine = `[${message.date}] ${message.author}: ${message.content}\n`;
+            let currentLine = `${message.author}: ${message.content}\n`;
             resultChatContent += currentLine;
         }
 
         chatContent.val(resultChatContent);
+        chatContent.text(resultChatContent);
     }
 
     function reloadChatData () {
         let request = {
             method: 'GET',
-            url: 'https://messenger-25aaf.firebaseio.com/messages.json'
+            url: `${baseUrl}.json`
         };
 
         $.ajax(request)
@@ -70,5 +70,4 @@
         $('#controls').prepend(errorDiv);
         errorDiv.fadeOut(5000);
     }
-
-}());
+}

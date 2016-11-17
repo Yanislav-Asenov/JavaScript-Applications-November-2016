@@ -3,35 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Phonebook</title>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
-    integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
-    crossorigin="anonymous"></script>
-    <style>
-        #phonebook {
-            list-style-type: none
-        }
-        .heading-ul-row {
-            font-size: 20px;
-            font-weight: bold;
-        }
-    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
     <h1>Phonebook</h1>
-    <ul id="phonebook">
-    </ul>
+    <ul id="phonebook"></ul>
     <button id="btnLoad">Load</button>
 
-    <div>
-        <h2>Create Contact</h2>
-        <div class="create-phone-info"></div>
-        Person: <input type="text" id="person" />
-        <br>
-        Phone: <input type="text" id="phone" />
-        <br>
-        <button id="btnCreate">Create</button>        
-    </div>
+    <h2>Create Contact</h2>
+    Person: <input type="text" id="person"/>
+    <br>
+    Phone: <input type="text" id="phone"/>
+    <br>
+    <button id="btnCreate">Create</button>
 
     <script src="./app.js"></script>
+    <script>
+        attachEvents();
+    </script>
 </body>
 </html>

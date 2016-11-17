@@ -1,14 +1,10 @@
-(function (){
+function attachEvents () {
     let baseUrl = 'https://phonebook-1f65b.firebaseio.com/phonebook';
     let phonebook = $('#phonebook');
 
-    $('#btnLoad').on('click', function () {
-        loadContacts();
-    });
+    $('#btnLoad').on('click', loadContacts);
 
-    $('#btnCreate').on('click', function () {
-        createNewContact();
-    });
+    $('#btnCreate').on('click', createNewContact);
 
     function createNewContact () {
         let personNameInputElement = $('#person');
@@ -30,9 +26,6 @@
 
         $.ajax(createRequest)
             .then(loadContacts)
-            .then(function () {
-                $('.create-phone-info').text('Success').css('background', 'lightgreen').fadeOut(3000);
-            })
             .catch(displayError);
     }
 
@@ -46,14 +39,13 @@
         phonebook.empty();
         let keys = Object.keys(contacts);
 
-        phonebook.append($('<li class="heading-ul-row">Person   -   Phone</li>'));
         for (let key of keys) {
             let contact = contacts[key];
             let li = $('<li>');
             li.text(`${contact.person} - ${contact.phone} `);
-            let deleteLink = $(`<a href="#">[Delete]</a>`);
+            let deleteLink = $(`<button>[Delete]</button>`);
             deleteLink.on('click', function () {
-                deleteContact(key, this);
+                deleteContact(key);
             });
             li.append(deleteLink);
             phonebook.append(li);
@@ -61,21 +53,24 @@
     }
 
     function displayError (err) {
-        phonebook.empty();
-        let errorLi = $(`<li>Error</li>`);
-        phonebook.append(errorLi);
+        let errorDiv = $('<div>')
+                        .css('background', 'red')
+                        .css('font-weight', 'bold')
+                        .css('font-size', '18')
+                        .css('color', 'white')
+                        .text(`Error: Cannot load contacts`)
+                        .fadeOut(5000);
+        $('body').prepend(errorDiv);
     }
 
-    function deleteContact (contactKey, eventTarget) {
+    function deleteContact (contactKey) {
         let deleteRequest = {
             method: 'DELETE',
             url: baseUrl + `/${contactKey}.json`
         };
 
         $.ajax(deleteRequest)
-            .then(function () {
-                $(eventTarget).parent().remove();
-            })
+            .then(loadContacts)
             .catch(displayError);
     }
-}());
+}
