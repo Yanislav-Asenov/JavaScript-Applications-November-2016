@@ -148,6 +148,16 @@ function attachEvents () {
     }
 
     function displayError (err) {
+        let errorDiv = $('<div>');
+        errorDiv.css({
+            background: 'red',
+            color: 'white',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            width: '90%'
+        })
+        .text('Error');
 
+        $('#aside').prepend(errorDiv);
     }
 }
