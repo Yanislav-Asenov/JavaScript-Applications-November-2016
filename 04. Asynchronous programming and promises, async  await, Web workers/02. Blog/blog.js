@@ -1,3 +1,5 @@
+$(attachEvents);
+
 function attachEvents () {
     const baseUrl = 'https://baas.kinvey.com/appdata/kid_B1iu1jo-l';
     const appId = 'kid_B1iu1jo-l';
@@ -20,40 +22,33 @@ function attachEvents () {
 
     function getPostDetails () {
         let postId = postsSelectList.val();
-        let getPostRequest = {
+        let getPostRequest = $.ajax({
             method: 'GET',
             headers: authHeaders,
             url: `${baseUrl}/posts/${postId}`
-        };
+        });
 
-        let getPostCommentsRequest = {
+        let getPostCommentsRequest = $.ajax({
             method: 'GET',
             headers: authHeaders,
             url: `${baseUrl}/comments/?query={"post_id":"${postId}"}`
-        };
+        });
 
-        // Load post title and body
-        $.ajax(getPostRequest)
+        Promise
+            .all([getPostRequest, getPostCommentsRequest])
             .then(displayPostDetails)
-            .catch(displayError);
-        
-        // Load post comments
-        $.ajax(getPostCommentsRequest)
-            .then(displayPostComments)
             .catch(displayError);
     }
 
-    function displayPostComments (comments) {
+    function displayPostDetails ([post, comments]) {
+        postTitleHeader.text(post.title);
+        postBodyParagraph.text(post.body);
+
         commentsUl.empty();
         for (let comment of comments) {
             let commentLi = $('<li>').text(comment.body);
             commentsUl.append(commentLi);
         }
-    }
-
-    function displayPostDetails (post) {
-        postTitleHeader.text(post.title);
-        postBodyParagraph.text(post.body);
     }
 
     function loadPosts () {
