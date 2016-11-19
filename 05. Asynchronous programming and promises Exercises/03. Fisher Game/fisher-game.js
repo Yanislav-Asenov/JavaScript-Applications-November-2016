@@ -30,12 +30,12 @@ function attachEvents () {
             method: 'DELETE',
             url: `${baseUrl}/${catchId}`,
             headers: authHeaders,
-            contentType: 'application/json'
+            contentType: 'application/json',
+            success: listAllCatches,
+            error: displayError
         };
 
-        $.ajax(deleteCatchRequest)
-            .then(listAllCatches)
-            .catch(displayError);
+        $.ajax(deleteCatchRequest);
     }
 
     function updateCatch (catchId, data) {
@@ -44,12 +44,12 @@ function attachEvents () {
             url: `${baseUrl}/${catchId}`,
             headers: authHeaders,
             data: JSON.stringify(data),
-            contentType: 'application/json'
+            contentType: 'application/json',
+            success: listAllCatches,
+            error: displayError
         };
 
-        $.ajax(updateCatchRequest)
-            .then(listAllCatches)
-            .catch(displayError);
+        $.ajax(updateCatchRequest);
     }
 
     function addCatch () {
@@ -59,13 +59,13 @@ function attachEvents () {
             url: baseUrl,
             headers: authHeaders,
             data: JSON.stringify(data),
-            contentType:"application/json"
+            contentType:"application/json",
+            success: listAllCatches,
+            error: displayError
         };
 
         $.ajax(createCatchRequest)
-            .then(resetInputFields)
-            .then(listAllCatches)
-            .catch(displayError);
+            .then(resetInputFields);
     }
 
     function resetInputFields () {
@@ -92,12 +92,12 @@ function attachEvents () {
         let getCatchesRequest = {
             method: 'GET',
             url: baseUrl,
-            headers: authHeaders
+            headers: authHeaders,
+            success: displayCatches,
+            error: displayError
         };
 
-        $.ajax(getCatchesRequest)
-            .then(displayCatches)
-            .catch(displayError);
+        $.ajax(getCatchesRequest);
     }
 
     function displayCatches (catches) {
@@ -122,6 +122,7 @@ function attachEvents () {
         }
 
         catchesContainer.html(html);
+        
         $('.update').click(function (ev) {
             let catchContainer = $(this).parent();
             let catchId = catchContainer.attr('data-id');
@@ -140,6 +141,7 @@ function attachEvents () {
 
             updateCatch(catchId, data);
         });
+
         $('.delete').click(function (ev) {
             let catchContainer = $(this).parent();
             let catchId = catchContainer.attr('data-id');
