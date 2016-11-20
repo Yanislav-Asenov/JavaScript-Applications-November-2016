@@ -16,31 +16,64 @@ let bookDetailsContainer = $('#book-details-container');
 let bookTitleField = $('#book-title');
 let bookAuthorField = $('#book-author');
 let bookIsbnField = $('#book-isbn');
+let tagsList = $('#book-tags');
+let newTag = $('#new-tag');
 
 $(attachEvents);
 
 function attachEvents () {
     $('#load-books-btn').click(loadBooks);
     $('#add-book-btn').click(createBook);
+    $('#add-tag').click(addTag);
 }
+
+function addTag (event) {
+    let option = $('<option>');
+    option.text(newTag.val());
+    tagsList.append(option);
+    newTag.val('');
+}
+
 
 function createBook () {
     let createBookReqeust = {
         method: 'POST',
         url: `${baseUrl}/books`,
         headers: authHeaders,
-        data: getNewBookData(),
-        success: loadBooks,
-        error: displayError
+        data: getNewBookData()
     };
 
-    $.ajax(createBookReqeust).then(resetInputFelds);
+    $.ajax(createBookReqeust)
+        .then(addBookTags)
+        .then(loadBooks)
+        .then(resetInputFelds)
+        .catch(displayError);
+}
+
+function addBookTags (book) {
+    let tags = tagsList.children().toArray().map(x => $(x).text());
+    let createTagRequet = {
+        method: 'POST',
+        url: `${baseUrl}/tags`,
+        headers: authHeaders
+    };
+    for (let tag of tags) {
+        let data = {
+          name: tag,
+          book_id: book._id,
+          error: displayError
+        };
+
+        createTagRequet.data = JSON.stringify(data);
+        $.ajax(createTagRequet);
+    }
 }
 
 function resetInputFelds () {
     bookAuthorField.val('');
     bookIsbnField.val('');
     bookTitleField.val('');
+    tagsList.empty();
 }
 
 function getNewBookData () {
@@ -81,21 +114,29 @@ function displayBooks (books) {
 
 function getBookDetails (event) {
     let bookId = $(event.delegateTarget).attr('data-id');
-    let getBookRequest = {
+    let getBookRequest = $.ajax({
         method: 'GET',
         url: `${baseUrl}/books/${bookId}`,
-        headers: authHeaders,
-        success: displayBookDetails,
-        error: displayError
-    };
+        headers: authHeaders
+    });
 
-    $.ajax(getBookRequest);
+    let getBookTagsRequest = $.ajax({
+        method: 'GET',
+        url: `${baseUrl}/tags/?query={"book_id":"${bookId}"}`,
+        headers: authHeaders
+    });
+
+    Promise.all([getBookRequest, getBookTagsRequest])
+        .then(displayBookDetails)
+        .catch(displayError);
 }
 
-function displayBookDetails (book) {
+function displayBookDetails ([book, tags]) {
+    tags = tags.map(x => '#' + x.name);
     let html = `<h3 id="book-details-title">${book.title}</h3>
                 <span>by</span><h4 id="book-details-author">${book.author}</h4>
                 <span>ISBN:</span><h4 id="book-details-isbn">${book.isbn}</h4>
+                <span>Tags:</span><span class="tags">${tags.join('')}</span>
                 <button data-id="${book._id}" id="update-book-btn">Update</button>
                 <button data-id="${book._id}" id="delete-book-btn">Delete</button>`;
 

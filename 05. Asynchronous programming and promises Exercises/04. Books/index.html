@@ -16,17 +16,31 @@
 <body>
     <button id="load-books-btn">Load books</button>
     <div class="create-new-book-container">
-        <h1>Add new book</h2>
-        <label><b>Title</b></label>
-        <input id="book-title" type="text" placeholder="Title" required>
-
-        <label><b>Author</b></label>
-        <input id="book-author" type="text" placeholder="Author name" required>
-
-        <label><b>ISBN</b></label>
-        <input id="book-isbn" type="text" placeholder="ISBN" required>
-
-        <button id="add-book-btn" type="button">Add</button>
+        <div>
+            <h1>Add new book</h2>
+        </div>
+        <div>
+            <label><b>Title</b></label>
+            <input id="book-title" type="text" placeholder="Title (required)" required>
+        </div>
+        <div>
+            <label><b>Author</b></label>
+            <input id="book-author" type="text" placeholder="Author name (required)" required>
+        </div>
+        <div>
+            <label><b>ISBN</b></label>
+            <input id="book-isbn" type="text" placeholder="ISBN (required)" required>
+        </div>
+        <div>
+            <label><b>Tags</b></label>
+            <select id="book-tags"></select>
+            <input type="text" id="new-tag" placeholder="Tag name">
+            <button id="add-tag">Add new tag</button>    
+        </div>
+        <div>
+            <hr>
+            <button id="add-book-btn">Add new book</button>
+        </div>
     </div>
     <div id="book-details-container">
     </div>
