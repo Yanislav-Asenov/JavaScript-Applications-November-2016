@@ -5,45 +5,36 @@
     <title>Books</title>
     <link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="scripts/libs/system.js"></script>
+    <script>
+        SystemJS.config({
+            baseURL: './scripts'
+        });
+    </script>
 </head>
 <body>
-    <ul>
-        <li>
-            <a href="#">
-            <h2>Title #1</h2>
-            <p>Text Content #1</p>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-            <h2>Title #2</h2>
-            <p>Text Content #2</p>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-            <h2>Title #3</h2>
-            <p>Text Content #3</p>
-            </a>
-        </li>
-                <li>
-            <a href="#">
-            <h2>Title #4</h2>
-            <p>Text Content #4</p>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-            <h2>Title #5</h2>
-            <p>Text Content #5</p>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-            <h2>Title #6</h2>
-            <p>Text Content #6</p>
-            </a>
-        </li>
+    <button id="load-books-btn">Load books</button>
+    <div class="create-new-book-container">
+        <h1>Add new book</h2>
+        <label><b>Title</b></label>
+        <input id="book-title" type="text" placeholder="Title" required>
+
+        <label><b>Author</b></label>
+        <input id="book-author" type="text" placeholder="Author name" required>
+
+        <label><b>ISBN</b></label>
+        <input id="book-isbn" type="text" placeholder="ISBN" required>
+
+        <button id="add-book-btn" type="button">Add</button>
+    </div>
+    <div id="book-details-container">
+    </div>
+    <ul id="books-container">
     </ul>
+
+    <script>
+        SystemJS.import('app.js');
+    </script>
 </body>
 </html>

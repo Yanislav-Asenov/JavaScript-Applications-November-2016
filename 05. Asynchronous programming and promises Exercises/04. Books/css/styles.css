@@ -104,3 +104,44 @@ ul li a{
   -o-transition:-o-transform .15s linear;
   -webkit-transition:-webkit-transform .15s linear;
 }
+
+.create-new-book-container {
+  float: right;
+}
+
+.create-new-book-container > * {
+  display: block;
+}
+
+#book-details-container {
+  float: left;
+  padding: 10px;
+  width: 20%;
+  text-align: center;
+}
+
+#book-details-container > * {
+  padding: 5px;
+  margin: 5px;
+}
+
+#load-books-btn {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    display: block;
+}
+
+.editable {
+  border: solid dodgerblue 0.5px;
+  color: #666;
+  background-color: white;
+}
+
+.edit-mode {
+  background-color: royalblue;
+  color: white;
+  font-weight: bold;
+  border: solid blue 2px;
+  font-size: 16px;
+}
