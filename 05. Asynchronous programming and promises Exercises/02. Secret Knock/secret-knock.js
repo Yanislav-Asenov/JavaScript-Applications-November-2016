@@ -1,7 +1,5 @@
 function solve () {
     let baseUrl = 'https://baas.kinvey.com/appdata/kid_BJXTsSi-e/knock';
-    let appKey = 'kid_BJXTsSi-e';
-    let appSecret = '447b8e7046f048039d95610c1b039390';
     let username = 'guest';
     let password = 'guest';
     let base64auth = btoa(`${username}:${password}`);
@@ -10,25 +8,25 @@ function solve () {
     };
 
     let message = 'Knock Knock.';
+    console.log(message);
+    makeRequet(message);
 
-    getRequet(message);
-
-    function getRequet (message) {
-        if (!message) {
-            return;
-        }
-        
-        let getRequest = {
+    function makeRequet (message) {
+        let request = {
             method: 'GET',
             url: `${baseUrl}?query=${message}`,
             headers: authHeaders
         };
 
-        $.ajax(getRequest)
+        $.ajax(request)
             .then(function (response) {
-                getRequet(response.message);
-                console.log(response.message);
                 console.log(response.answer);
+                if (!response.message) {
+                    return;
+                }
+                message = response.message;
+                console.log(response.message);
+                makeRequet(message);
             });
     }
 }
