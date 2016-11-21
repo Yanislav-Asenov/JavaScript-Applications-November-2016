@@ -24,16 +24,33 @@ $(attachEvents);
 function attachEvents () {
     $('#load-books-btn').click(loadBooks);
     $('#add-book-btn').click(createBook);
-    $('#add-tag').click(addTag);
+    $('#add-tag-btn').click(function () {
+        addTag('#book-tags', '#new-tag');
+    });
+    $('#remove-tag-btn').click(function () {
+        removeTagFromList('#book-tags');
+    });
 }
 
-function addTag (event) {
-    let option = $('<option>');
-    option.text(newTag.val());
-    tagsList.append(option);
-    newTag.val('');
+function addTag (selectListSelector, newItemInputSelector) {
+    let selectList = $(selectListSelector);
+    let inputField = $(newItemInputSelector);
+    let newItemValue = inputField.val();
+    if (newItemValue !== '') {
+        let option = $('<option>');
+        option.text(newItemValue);
+        inputField.val('');
+        selectList.append(option);
+    }
 }
 
+function removeTagFromList (selectListSelector) {
+    let selectList = $(selectListSelector);
+    selectList.find('option:selected').remove();
+    if (selectList.children().length === 0) {
+        selectList.val('');
+    }
+}
 
 function createBook () {
     let createBookReqeust = {
@@ -109,11 +126,13 @@ function displayBooks (books) {
     }
 
     booksContainer.html(html);
-    $('.book-list-item').on('click', getBookDetails);
+    $('.book-list-item').on('click', function (event) {
+        let bookId = $(event.currentTarget).attr('data-id');
+        getBookDetails(bookId);
+    });
 }
 
-function getBookDetails (event) {
-    let bookId = $(event.delegateTarget).attr('data-id');
+function getBookDetails (bookId) {
     let getBookRequest = $.ajax({
         method: 'GET',
         url: `${baseUrl}/books/${bookId}`,
@@ -132,29 +151,120 @@ function getBookDetails (event) {
 }
 
 function displayBookDetails ([book, tags]) {
-    tags = tags.map(x => '#' + x.name);
     let html = `<h3 id="book-details-title">${book.title}</h3>
                 <span>by</span><h4 id="book-details-author">${book.author}</h4>
                 <span>ISBN:</span><h4 id="book-details-isbn">${book.isbn}</h4>
-                <span>Tags:</span><span class="tags">${tags.join('')}</span>
-                <button data-id="${book._id}" id="update-book-btn">Update</button>
-                <button data-id="${book._id}" id="delete-book-btn">Delete</button>`;
+                <span>Tags:</span><ul id="book-details-tags">`; 
+    
+    for (let tag of tags) {
+        html += `<li class="tag-item" data-id="${tag._id}">#${tag.name}</li>`;
+    }
+
+    html += `</ul>
+            <button id="update-book-btn" data-id="${book._id}">Update</button>
+            <button id="delete-book-btn" data-id="${book._id}">Delete</button>`;
 
     bookDetailsContainer.html(html);
     $('#delete-book-btn').on('click', deleteBook);
-    $('#update-book-btn').on('click', showUpdateBookForm);
+    $('#update-book-btn').on('click', getBookTags);
 }
 
-function showUpdateBookForm () {
-    let updateButton =  $('#update-book-btn');
-    if (updateButton.hasClass('edit-mode')) {
-        updateBook();
-    } else {
-        $('#book-details-title').addClass('editable').attr('contenteditable','true');
-        $('#book-details-author').addClass('editable').attr('contenteditable','true');
-        $('#book-details-isbn').addClass('editable').attr('contenteditable','true');
-        updateButton.addClass('edit-mode');
+function getBookTags (event) {
+    let bookId = $(event.target).attr('data-id');
+    let getBookTagsRequest = {
+        method: 'GET',
+        url: `${baseUrl}/tags/?query={"book_id":"${bookId}"}`,
+        headers: authHeaders
+    };
+
+    $.ajax(getBookTagsRequest)
+        .then(function (tags) {
+            showUpdateBookForm(tags)
+        })
+        .catch(displayError);
+}
+
+function showUpdateBookForm (tags) {
+    let bookId = $('#update-book-btn').attr('data-id');
+    let bookTitle = $('#book-details-title').text();
+    let bookAuthor = $('#book-details-author').text();
+    let bookIsbn = $('#book-details-isbn').text();
+    let bookTags = tags;
+    let tagsHtml = '<select id="update-book-tags-list">'
+    for (let tag of bookTags) {
+        tagsHtml += `<option data-id="${tag.book_id}" value="${tag._id}">${tag.name}</option>`;
     }
+    tagsHtml += '</select>'
+
+    let html = `<span>Title:</span><input type="text" id="book-details-title" value="${bookTitle}">
+                <span>by</span><input type="text" id="book-details-author" value="${bookAuthor}">
+                <span>ISBN:</span><input type="text" id="book-details-isbn" value="${bookIsbn}">
+                <span>Tags:${tagsHtml}
+                <input type="text" id="update-add-new-tag" data-id="${bookId}" placeholder="new tag name"><button id="update-add-tag-btn">Add tag</button>
+                <button id="update-remove-tag-btn">Remove tag</button>
+                <hr>
+                <button data-id="${bookId}" id="save-book-btn">Save</button>`;
+
+    bookDetailsContainer.html(html);
+    $('#update-add-tag-btn').click(function () {
+        let inputField = $('#update-add-new-tag');
+        if (inputField.val() !== '') {
+            let newTag = {
+                name: inputField.val(),
+                book_id: inputField.attr('data-id')
+            };
+
+            let addTagRequest = {
+                method: 'POST',
+                url: `${baseUrl}/tags`,
+                headers: authHeaders,
+                data: JSON.stringify(newTag)
+            }
+
+            $.ajax(addTagRequest)
+                .then(function () {
+                    addTag('#update-book-tags-list', '#update-add-new-tag');
+                })
+                .catch(displayError);
+        }
+    });
+    
+    $('#update-remove-tag-btn').click(function () {
+        let tagId = $('#update-book-tags-list').val();
+        let removeTagRequest = {
+            method: 'DELETE',
+            url: `${baseUrl}/tags/${tagId}`,
+            headers: authHeaders
+        };
+
+        $.ajax(removeTagRequest)
+            .then(function (success) {
+                removeTagFromList('#update-book-tags-list');
+            })
+            .catch(displayError);
+    });
+
+    $('#save-book-btn').click(function (event) {
+        let bookId = $(event.currentTarget).attr('data-id');
+        let newTitle = $('#book-details-title').val();
+        let newAuthor = $('#book-details-author').val();
+        let newIsbn = $('#book-details-isbn').val();
+        let updatedBook = new Book(newTitle, newAuthor, newIsbn);
+        let updateBookRequest = {
+            method: 'PUT',
+            url: `${baseUrl}/books/${bookId}`,
+            headers: authHeaders,
+            data: JSON.stringify(updatedBook)
+        };
+
+        $.ajax(updateBookRequest)
+            .then(function () {
+                getBookDetails(bookId);
+            })
+            .then(loadBooks)
+            .catch(displayError);
+        
+    });
 }
 
 function updateBook () {
@@ -167,10 +277,7 @@ function updateBook () {
     let updateBookRequest = {
         method: 'PUT',
         url: `${baseUrl}/books/${bookId}`,
-        headers: authHeaders,
-        data: JSON.stringify(newBook),
-        success: updateBookDetails,
-        error: displayError
+        headers: authHeaders
     };
 
     $.ajax(updateBookRequest)
@@ -178,12 +285,6 @@ function updateBook () {
         .catch(displayError);
 }
 
-function updateBookDetails (book) {
-    $('#book-details-title').removeClass('editable').attr('contenteditable','false');
-    $('#book-details-author').removeClass('editable').attr('contenteditable','false');
-    $('#book-details-isbn').removeClass('editable').attr('contenteditable','false');
-    $('#update-book-btn').removeClass('edit-mode');
-}
 
 function deleteBook (event) {
     let bookId = $(event.target).attr('data-id');

@@ -113,9 +113,14 @@ ul li a{
   width: 20%;
 }
 
-.create-new-book-container button {
+#add-tag-btn, #remove-tag-btn {
+  width: 45%;
   height: 30px;
-  width: 90%;
+}
+
+#add-book-btn {
+  width: 92%;
+  height: 40px;
 }
 
 .create-new-book-container select {
@@ -144,10 +149,39 @@ ul li a{
 #book-details-container {
   float: left;
   padding: 5px;
-  width: 30%;
+  width: 18%;
   text-align: left;
-   word-wrap: break-word;
+  word-wrap: break-word;
 }
+
+#book-details-container * {
+  margin: 5px;
+  margin-left: 0;
+  display: block;
+}
+
+#book-details-container input {
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#book-details-container button {
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#book-details-container select {
+  line-height: 20px;
+  font-size: 16px;
+  width: 43%;
+  font-weight: bold;
+  display: inline-block;
+}
+
+
 
 #book-details-container > * {
   padding: 5px;
