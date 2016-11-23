@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <title>Books</title>
     <script src="./scripts/libs/jquery-3.1.1.min.js"></script>
+    <script
+        src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
     <script src="./scripts/app.js"></script>
     <link rel="stylesheet" type="text/css" href="./styles/main-styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:900,400' rel='stylesheet' type='text/css'>
 </head>
 
 <body onload="startApp()">
@@ -16,12 +21,31 @@
         <a href="#" id="linkRegister">Register</a>
         <a href="#" id="linkListBooks">List Books</a>
         <a href="#" id="linkCreateBook">Create Book</a>
-        <a href="#" id="linkLogout">Logout</a>
         <span id="loggedInUser"></span>
+        <a href="#" id="linkLogout">Logout</a>
     </header>
-
     <main>
-        <section id="loadingBox">Loading ...</section>
+        <section id="loadingBox" class="main">
+            <div class="s1">
+                <div class="s b sb1"></div>
+                <div class="s b sb2"></div>
+                <div class="s b sb3"></div>
+                <div class="s b sb4"></div>
+                </div>
+
+
+                <div class="s2">
+                <div class="s b sb5"></div>
+                <div class="s b sb6"></div>
+                <div class="s b sb7"></div>
+                <div class="s b sb8"></div>
+                </div>
+
+                <div class="bigcon">
+                <div class="big b"></div>
+            </div>
+        </section>
+
         <section id="infoBox">Info</section>
         <section id="errorBox">Error</section>
 
@@ -30,8 +54,7 @@
             Welcome to our book library.
         </section>
 
-
-        <section id="viewLogin">
+        <section id="viewLogin" class="center">
             <h1>Please login</h1>
             <form id="formLogin">
                 <div>Username:</div>
@@ -45,7 +68,7 @@
             </form>
         </section>
 
-        <section id="viewRegister">
+        <section id="viewRegister" class="center">
             <h1>Please register here</h1>
             <form id="formRegister">
                 <div>Username:</div>
@@ -59,30 +82,13 @@
             </form>
         </section>
 
-        <section id="viewBooks">
+        <section id="viewBooks" >
             <h1>Books</h1>
             <div id="books">
-                <table>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                <tr>
-                    <td>Book title</td>
-                    <td>Book author</td>
-                    <td>Book description</td>
-                    <td>
-                    <a href="#">[Delete]</a>
-                    <a href="#">[Edit]</a>
-                    </td>
-                </tr>
-                </table>
             </div>
         </section>
 
-        <section id="viewCreateBook">
+        <section id="viewCreateBook" class="center">
             <h1>Create new book</h1>
             <form id="formCreateBook">
                 <div>Title:</div>
@@ -97,7 +103,7 @@
             </form>
         </section>
 
-        <section id="viewEditBook">
+        <section id="viewEditBook" class="center">
             <h1>Edit existing book</h1>
             <form id="formEditBook">
                 <div><input type="hidden" name="id" required /></div>
