@@ -68,4 +68,8 @@ footer {
   font-size: 0.8em;
   text-align: center;
   border-radius: 3px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
