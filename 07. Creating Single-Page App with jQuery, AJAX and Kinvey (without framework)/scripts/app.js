@@ -264,7 +264,6 @@ function startApp () {
     }
 
     function listBooks (event) {
-        console.log(1);
         booksContainer.empty();
         listBooksLink.unbind('click');
         let authToken = sessionStorage.getItem('authToken');
@@ -280,47 +279,47 @@ function startApp () {
         };
 
         $.ajax(getBooksRequest);
-
-        function displayBooks (books) {
-            let table = $(`<table>
-                            <tr>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>`);
-            for (let book of books) {
-                let tr = $(`<tr data-book-id="${book._id}">`);
-                let titleCol = $('<td>').text(book.title);
-                let authorCol = $('<td>').text(book.author);
-                let descriptionCol = $('<td>').text(book.description);
-
-                tr.append(titleCol)
-                    .append(authorCol)
-                    .append(descriptionCol)
-                
-                if (book._acl.creator === sessionStorage.getItem('userId')) {
-                    let actionsTd = $('<td>');
-                    let deleteButton = $('<a class="delete-book-btn" href="#"></a>')
-                                        .text('[Delete] ').attr('data-book-id', book._id);
-                    let editButton = $('<a class="edit-book-btn" href="#"></a>')
-                                        .text(' [Edit]').attr('data-book-id', book._id);
-                    actionsTd.append(deleteButton).append(editButton);
-                    tr.append(actionsTd);
-                } else {
-                    tr.append($('<td>'));
-                }
-
-                table.append(tr);
-            }
-
-            booksContainer.append(table);
-            attachBooksEvents();
-            listBooksLink.bind('click', listBooks)
-        }
     }
 
-    function attachBooksEvents () {
+    function displayBooks (books) {
+        let table = $(`<table>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>`);
+        for (let book of books) {
+            let tr = $(`<tr data-book-id="${book._id}">`);
+            let titleCol = $('<td>').text(book.title);
+            let authorCol = $('<td>').text(book.author);
+            let descriptionCol = $('<td>').text(book.description);
+
+            tr.append(titleCol)
+                .append(authorCol)
+                .append(descriptionCol)
+            
+            if (book._acl.creator === sessionStorage.getItem('userId')) {
+                let actionsTd = $('<td>');
+                let deleteButton = $('<a class="delete-book-btn" href="#"></a>')
+                                    .text('[Delete] ').attr('data-book-id', book._id);
+                let editButton = $('<a class="edit-book-btn" href="#"></a>')
+                                    .text(' [Edit]').attr('data-book-id', book._id);
+                actionsTd.append(deleteButton).append(editButton);
+                tr.append(actionsTd);
+            } else {
+                tr.append($('<td>'));
+            }
+
+            table.append(tr);
+        }
+
+        booksContainer.append(table);
+        attachBookEvents();
+        listBooksLink.bind('click', listBooks)
+    }
+
+    function attachBookEvents () {
         $('.delete-book-btn').click(deleteBook);
         $('.edit-book-btn').click(loadBookForEdit);
     }
@@ -408,32 +407,32 @@ function startApp () {
                 showInfo('Book successfully updated');
             });
     }
+}
 
-    function deleteBook (event) {
-        let authToken = sessionStorage.getItem('authToken');
-        let bookId = $(event.currentTarget).attr('data-book-id');
-        let deleteBookRequest = {
-            method: 'DELETE',
-            url: `${kinveyBaseUrl}/appdata/${kinveyAppKey}/books/${bookId}`,
-            headers: {
-                'Authorization': `Kinvey ${authToken}`
-            },
-            success: listBooks,
-            error: handleAjaxError
-        };
+function deleteBook (event) {
+    let authToken = sessionStorage.getItem('authToken');
+    let bookId = $(event.currentTarget).attr('data-book-id');
+    let deleteBookRequest = {
+        method: 'DELETE',
+        url: `${kinveyBaseUrl}/appdata/${kinveyAppKey}/books/${bookId}`,
+        headers: {
+            'Authorization': `Kinvey ${authToken}`
+        },
+        success: listBooks,
+        error: handleAjaxError
+    };
 
-        $.ajax(deleteBookRequest)
-            .then(function () {
-                showInfo('Book successfully deleted');
-            });
-    }
+    $.ajax(deleteBookRequest)
+        .then(function () {
+            showInfo('Book successfully deleted');
+        });
 }
 
 // attach loader to the body
 $(document).ready( function () {
-  var id = 'loader', fill = 'red',
-      size = 20, radius = 3, duration = 1000,
-      maxOpacity = 0.6, minOpacity = 0.15;
+  var id = 'loader', fill = '#979696',
+      size = 30, radius = 3, duration = 1000,
+      maxOpacity = 1, minOpacity = 0.15;
   $('<svg id="'+id+'" width="'+(size*3.5)+'" height="'+size+'">' + 
    		'<rect width="'+size+'" height="'+size+'" x="0" y="0" rx="'+radius+'" ry="'+radius+'" fill="'+fill+'" fill-opacity="'+maxOpacity+'">' + 
    			'<animate attributeName="opacity" values="1;'+minOpacity+';1" dur="'+duration+'ms" repeatCount="indefinite"/>' + 
