@@ -247,12 +247,12 @@ function startApp () {
         infoBox.show();
         setTimeout(function() {
             infoBox.fadeOut();
-        }, 3000);
+        }, 4000);
     }
 
     function showError (errorMsg) {
         errorBox.text("Error: " + errorMsg);
-        errorBox.slideDown();
+        errorBox.slideDown(1000);
     }
 
     function logoutUser () { 
@@ -407,25 +407,25 @@ function startApp () {
                 showInfo('Book successfully updated');
             });
     }
-}
 
-function deleteBook (event) {
-    let authToken = sessionStorage.getItem('authToken');
-    let bookId = $(event.currentTarget).attr('data-book-id');
-    let deleteBookRequest = {
-        method: 'DELETE',
-        url: `${kinveyBaseUrl}/appdata/${kinveyAppKey}/books/${bookId}`,
-        headers: {
-            'Authorization': `Kinvey ${authToken}`
-        },
-        success: listBooks,
-        error: handleAjaxError
-    };
+    function deleteBook (event) {
+        let authToken = sessionStorage.getItem('authToken');
+        let bookId = $(event.currentTarget).attr('data-book-id');
+        let deleteBookRequest = {
+            method: 'DELETE',
+            url: `${kinveyBaseUrl}/appdata/${kinveyAppKey}/books/${bookId}`,
+            headers: {
+                'Authorization': `Kinvey ${authToken}`
+            },
+            success: listBooks,
+            error: handleAjaxError
+        };
 
-    $.ajax(deleteBookRequest)
-        .then(function () {
-            showInfo('Book successfully deleted');
-        });
+        $.ajax(deleteBookRequest)
+            .then(function () {
+                showInfo('Book successfully deleted');
+            });
+    }
 }
 
 // attach loader to the body

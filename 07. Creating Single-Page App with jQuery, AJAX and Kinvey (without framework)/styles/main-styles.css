@@ -52,12 +52,13 @@ table td {
 }
 
 #infoBox, #errorBox, #loadingBox {
-  width: 80%;
-  margin: 10px auto;
+  width: 100%;
+  margin: 5px auto;
   color: white;
   text-align: center;
   padding: 5px;
   border-radius: 3px;
+  display: none;
 }
 
 #loadingBox {

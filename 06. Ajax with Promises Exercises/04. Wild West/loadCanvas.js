@@ -1,4 +1,4 @@
-function loadCanvas (player){
+function loadCanvas (player) {
     let canvas = document.getElementById("canvas");
     let ctx = canvas.getContext("2d");
 
@@ -16,30 +16,30 @@ function loadCanvas (player){
     target.src = "imgs/target.png";
     sight.src = "imgs/sight.png";
 
-    let backgroundPromise = new Promise((resolve,reject)=>{
+    let backgroundPromise = new Promise((resolve, reject) => {
         $(background).on('load',resolve);
     });
 
-    let targetPromise = new Promise((resolve,reject)=>{
+    let targetPromise = new Promise((resolve, reject) => {
         $(target).on('load',resolve);
     });
 
-    let sightPromise = new Promise((resolve,reject)=>{
+    let sightPromise = new Promise((resolve, reject) => {
         $(sight).on('load',resolve);
     });
 
-    Promise.all([backgroundPromise,targetPromise,sight]).then(()=>{
-        drawCanvas(canvas.width/2, canvas.height/2);
+    Promise.all([backgroundPromise, targetPromise,sight]).then(() => {
+        drawCanvas(canvas.width / 2, canvas.height / 2);
     });
 
-    function drawCanvas(mouseX, mouseY){
+    function drawCanvas (mouseX, mouseY) {
         ctx.drawImage(background, 0, 0, 800, 600);
         ctx.drawImage(target, targetObj.x, targetObj.y,targetObj.width,targetObj.height);
         ctx.fillText(`Player: ${player.name}`, 650, 25);
         ctx.fillText(`Money: ${player.money}`, 650, 50);
         ctx.fillText(`Bullets: ${player.bullets}`, 650, 75);
 
-        if(player.bullets === 0){
+        if(player.bullets === 0) {
             ctx.font = "48px serif";
             ctx.fillStyle="red";
             ctx.fillText(`Reload!`, canvas.width/2 - 50, canvas.height/2);
@@ -50,16 +50,16 @@ function loadCanvas (player){
         ctx.drawImage(sight, mouseX, mouseY,50,50);
     }
 
-    $(canvas).mousemove(function(event) {
+    $(canvas).mousemove(function (event) {
         mouse.x = event.clientX - 35;
         mouse.y =  event.clientY - 20;
         drawCanvas(mouse.x, mouse.y);
     });
 
-    $(canvas).click(function(event) {
-        if(player.bullets > 0){
-            if(event.clientX > targetObj.x && event.clientX < targetObj.x + targetObj.width
-                && event.clientY > targetObj.y && event.clientY < targetObj.y + targetObj.height){
+    $(canvas).click(function (event) {
+        if (player.bullets > 0) {
+            if (event.clientX > targetObj.x && event.clientX < targetObj.x + targetObj.width
+                && event.clientY > targetObj.y && event.clientY < targetObj.y + targetObj.height) {
                 player.money += 20;
             }
 
@@ -70,11 +70,11 @@ function loadCanvas (player){
     //Set a property in the Canvas to allow for cleaning the interval from outside
     canvas.intervalId = setInterval(moveTarget,100);
 
-    function moveTarget(){
-        if(targetObj.speed > 0 && targetObj.x + targetObj.width >= canvas.width){
+    function moveTarget () {
+        if (targetObj.speed > 0 && targetObj.x + targetObj.width >= canvas.width) {
             targetObj.speed = 0 - targetObj.speed;
         }
-        else if(targetObj.speed < 0 && targetObj.x <= 0){
+        else if (targetObj.speed < 0 && targetObj.x <= 0){
             targetObj.speed = 0 - targetObj.speed;
         }
 
