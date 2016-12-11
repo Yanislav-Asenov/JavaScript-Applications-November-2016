@@ -151,7 +151,7 @@ function registerSuccess (userInfo) {
     saveAuthInSession(userInfo);
     showHideMenuLinks();
     showHomeView();
-    // showInfo('User registration successful.');
+    showInfo('User registration successful.');
 }
 
 function saveAuthInSession (userInfo) {
@@ -376,7 +376,7 @@ function showHideMenuLinks () {
 }
 
 function handleAjaxError (response) {
-     let errorMsg = JSON.stringify(response);
+    let errorMsg = JSON.stringify(response);
 
     if (response.readyState === 0) {
         errorMsg = 'Cannot connect due to network error.';
