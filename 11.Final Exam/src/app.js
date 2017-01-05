@@ -26,8 +26,6 @@ function startApp() {
     });
 }
 
-
-
 /*
     Display user greeting messages functions
 */
@@ -39,8 +37,6 @@ function displayUserGreetingMessages () {
         $('#spanMenuLoggedInUser').text(``);
     }
 }
-
-
 
 /*
     Attach events functions
@@ -67,8 +63,6 @@ function attachHomeViewLinkEvents () {
     $('#linkUserHomeSendMessage').click(showViewSendMessage);
     $('#linkUserHomeArchiveSent').click(loadSentMessages);
 }
-
-
 
 /*
     Login functions
@@ -104,8 +98,6 @@ function loginUser (event) {
         showViewHome();
     }
 }
-
-
 
 /*
     Register functions
@@ -144,8 +136,6 @@ function registerUser (event) {
     }
 }
 
-
-
 /*
     Notifications functions
 */
@@ -159,8 +149,6 @@ function showError(message) {
      });
 }
 
-
-
 /*
     Authentication functions
 */
@@ -170,8 +158,6 @@ function saveAuthInSession (userInfo) {
     sessionStorage.setItem('username', userInfo.username);
     sessionStorage.setItem('name', userInfo.name);
 }
-
-
 
 /*
     Handle errors functions
@@ -189,7 +175,6 @@ function handleAjaxError (response) {
 
     showError(errorMsg);
 }
-
 
 /*
     My messages section functions
@@ -238,8 +223,6 @@ function loadMyMessages (event) {
         showViewMyMessages();
     }
 }
-
-
 
 /*
     Archive sent messages functions
@@ -311,8 +294,6 @@ function loadSentMessages (event) {
     }
 }
 
-
-
 /*
     Send message functions
 */
@@ -366,8 +347,6 @@ function sendMessage (event) {
         .catch(handleAjaxError);
 }
 
-
-
 /*
     Navbar menu links functions
 */
@@ -382,7 +361,6 @@ function showHideMenuLinks () {
         $('.anonymous').show();
     }
 }
-
 
 /*
     Show views functions
@@ -421,8 +399,6 @@ function showView (viewName) {
     $(`#${viewName}`).show();
 }
 
-
-
 /*
     Logout user functions
 */
@@ -440,8 +416,6 @@ function logoutUser () {
         .then(() => showInfoBox('Logout successful.'))
         .catch(handleAjaxError);
 }
-
-
 
 /*
     Exam helper functions
